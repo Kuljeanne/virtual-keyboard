@@ -1,5 +1,4 @@
 .key {
-  cursor: pointer;
   min-width: 60px;
   height: 60px;
   padding: 3px 10px 12px;
@@ -10,6 +9,7 @@
 }
 
 .key_inner {
+  cursor: pointer;
   background: #e1d8cd;
   height: 100%;
   width: 100%;
@@ -19,4 +19,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.key[data-key="ArrowUp"] .key_inner::after {
+  content: '▲';
+}
+
+.key[data-key="ArrowLeft"] .key_inner::after {
+  content: '◄';
+}
+
+.key[data-key="ArrowRight"] .key_inner::after {
+  content: '►';
+}
+
+.key[data-key="ArrowDown"] .key_inner::after {
+  content: '▼';
 }

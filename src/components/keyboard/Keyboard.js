@@ -1,10 +1,10 @@
 import Key from '../key/Key';
 
 const lineOne = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'];
-const lineTwo = ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'];
+const lineTwo = ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\', 'Delete'];
 const lineThree = ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 'Enter'];
 const lineFour = ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'ArrowUp', 'Shift'];
-const lineFive = ['Ctrl', 'Meta', 'Alt', 'Space', 'Alt', 'Ctrl', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
+const lineFive = ['Ctrl', 'Win', 'Alt', 'Space', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Ctrl'];
 const ALL_KEYS_ENG = [lineOne, lineTwo, lineThree, lineFour, lineFive];
 // const ALL_KEYS_RU = [lineOne, lineTwo, lineThree, lineFour, lineFive];
 

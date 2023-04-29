@@ -61,10 +61,14 @@ export default class Key {
       key.classList.add('backspace');
     }
     if (this.value === 'CapsLock') {
-      key.classList.add('capsLock');
+      key.classList.add('capslock');
     }
     if (this.value === 'Shift') {
       key.classList.add('shift');
+    }
+    if (this.value === 'Delete') {
+      key.classList.add('delete');
+      key.innerHTML = '<div class="key_inner">Del</div>';
     }
     if (this.value === 'Ctrl') {
       key.classList.add('control');
