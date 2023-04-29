@@ -1,7 +1,9 @@
 import createApp from './components/virtual-keyboard/App';
 import createTextArea from './components/text-area/Textarea';
-import createKeyboard from './components/keyboard/Keyboard';
+import Keyboard from './components/keyboard/Keyboard';
 
 createApp();
 document.querySelector('.virtual-keyboard').append(createTextArea());
-document.querySelector('.virtual-keyboard').append(createKeyboard());
+
+const keyboard = new Keyboard('eng');
+keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'));
