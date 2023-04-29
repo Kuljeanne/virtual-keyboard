@@ -6,29 +6,6 @@ const lineThree = ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';',
 const lineFour = ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'ArrowUp', 'Shift'];
 const lineFive = ['Ctrl', 'Win', 'Alt', 'Space', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Ctrl'];
 const ALL_KEYS_ENG = [lineOne, lineTwo, lineThree, lineFour, lineFive];
-// const ALL_KEYS_RU = [lineOne, lineTwo, lineThree, lineFour, lineFive];
-
-// function createLine(line) {
-//   const keyLine = document.createElement('div');
-//   keyLine.classList.add('keyboard_line');
-//   line.forEach((key) => {
-//     keyLine.append(createKey(key));
-//   });
-
-//   return keyLine;
-// }
-
-// export default function createKeyboard() {
-//   const keyboard = document.createElement('div');
-//   keyboard.classList.add('keyboard');
-
-//   ALL_KEYS.forEach((line) => {
-//     keyboard.append(createLine(line));
-//   });
-
-//   return keyboard;
-// }
-
 export default class Keyboard {
   constructor(lang) {
     this.lang = lang;
