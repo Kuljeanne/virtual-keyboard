@@ -3,11 +3,12 @@ import createTextArea from './components/text-area/Textarea';
 import Keyboard from './components/keyboard/Keyboard';
 
 createApp();
-localStorage.setItem('lang', 'eng');
+if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'eng');
+
 document.querySelector('.virtual-keyboard').append(createTextArea());
 const keyboard = new Keyboard(localStorage.getItem('lang'));
-keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'));
-
+keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'), localStorage.getItem('lang'));
+let altON = false;
 document.addEventListener('keydown', (event) => {
   event.preventDefault();
   const textarea = document.querySelector('textarea');
@@ -42,6 +43,22 @@ document.addEventListener('keydown', (event) => {
       }
     }
   });
+
+  if (event.code === 'AltLeft') {
+    altON = true;
+  }
+  if (event.code === 'ControlLeft' && altON) {
+    const lang = localStorage.getItem('lang');
+    if (lang === 'eng') {
+      localStorage.setItem('lang', 'ru');
+      document.querySelector('.virtual-keyboard').lastElementChild.remove();
+      keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'), localStorage.getItem('lang'));
+    } else {
+      localStorage.setItem('lang', 'eng');
+      document.querySelector('.virtual-keyboard').lastElementChild.remove();
+      keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'), localStorage.getItem('lang'));
+    }
+  }
 });
 
 document.addEventListener('keyup', (event) => {
