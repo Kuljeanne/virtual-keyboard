@@ -47,9 +47,10 @@ export default class Key {
       key.classList.add('meta');
       key.dataset.keyValue = '';
     }
-    if (this.value === 'Alt') {
+    if (this.value.includes('Alt')) {
       key.classList.add('alt');
       key.dataset.keyValue = '';
+      key.innerHTML = '<div class="key_inner">Alt</div>';
     }
     if (this.value.includes('Arrow')) {
       key.classList.add('arrow');
@@ -76,12 +77,28 @@ export default class Key {
     setTimeout(() => { pressedKey.classList.remove('key__active'); }, 300);
 
     const text = document.querySelector('textarea');
-    text.value += pressedKey.dataset.keyValue;
 
-    if (pressedKey.dataset.key === 'Backspace' && text.value.length > 0) {
-      const newText = text.value.split('');
-      newText.pop();
-      text.value = newText.join('');
+    if (pressedKey.dataset.key === 'Backspace') {
+      const start = text.value.substring(0, text.selectionStart).split('');
+      const end = text.value.substring(text.selectionStart, text.value.length);
+      start.pop();
+      text.value = start.join('') + end;
+      text.selectionStart = start.length;
+      text.selectionEnd = start.length;
+    } else if (pressedKey.dataset.key === 'Delete') {
+      const start = text.value.substring(0, text.selectionStart);
+      const end = text.value.substring(text.selectionStart, text.value.length).split('');
+      end.shift();
+
+      text.value = start + end.join('');
+      text.selectionStart = start.length;
+      text.selectionEnd = start.length;
+    } else {
+      const startText = text.value.substring(0, text.selectionStart);
+      const endText = text.value.substring(text.selectionStart, text.value.length);
+      text.value = startText + pressedKey.dataset.keyValue + endText;
+      text.selectionStart = startText.length + 1;
+      text.selectionEnd = startText.length + 1;
     }
 
     text.focus();

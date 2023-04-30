@@ -3,25 +3,48 @@ import createTextArea from './components/text-area/Textarea';
 import Keyboard from './components/keyboard/Keyboard';
 
 createApp();
+localStorage.setItem('lang', 'eng');
 document.querySelector('.virtual-keyboard').append(createTextArea());
-
-const keyboard = new Keyboard('eng');
+const keyboard = new Keyboard(localStorage.getItem('lang'));
 keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'));
 
-window.addEventListener('keydown', (event) => {
-  document.querySelector('textarea').focus();
+document.addEventListener('keydown', (event) => {
+  event.preventDefault();
+  const textarea = document.querySelector('textarea');
+  textarea.focus();
   document.querySelectorAll('.key').forEach((key) => {
     if (key.dataset.key === event.key
       || key.dataset.key.toLowerCase() === event.key
       || key.dataset.key === event.code) {
-      if (event.key === 'Tab') event.preventDefault();
       key.classList.add('key__active');
-      document.querySelector('textarea').value += key.dataset.keyValue;
+
+      if (key.dataset.key === event.key && key.dataset.key === 'Backspace') {
+        const start = textarea.value.substring(0, textarea.selectionStart).split('');
+        const end = textarea.value.substring(textarea.selectionStart, textarea.value.length);
+        start.pop();
+        textarea.value = start.join('') + end;
+        textarea.selectionStart = start.length;
+        textarea.selectionEnd = start.length;
+      } else if (key.dataset.key === event.key && key.dataset.key === 'Delete') {
+        const start = textarea.value.substring(0, textarea.selectionStart);
+        const end = textarea.value.substring(textarea.selectionStart, textarea.value.length).split('');
+        end.shift();
+
+        textarea.value = start + end.join('');
+        textarea.selectionStart = start.length;
+        textarea.selectionEnd = start.length;
+      } else {
+        const start = textarea.value.substring(0, textarea.selectionStart);
+        const end = textarea.value.substring(textarea.selectionStart, textarea.value.length);
+        textarea.value = start + key.dataset.keyValue + end;
+        textarea.selectionStart = start.length + 1;
+        textarea.selectionEnd = start.length + 1;
+      }
     }
   });
 });
 
-window.addEventListener('keyup', (event) => {
+document.addEventListener('keyup', (event) => {
   document.querySelectorAll('.key').forEach((key) => {
     if (key.dataset.key === event.key
       || key.dataset.key.toLowerCase() === event.key
@@ -30,3 +53,5 @@ window.addEventListener('keyup', (event) => {
     }
   });
 });
+
+document.querySelector('.virtual-keyboard').insertAdjacentHTML('afterend', '<p class="info">*Клавиатура создана в операционной системе Windows</p><p class="info">*Для переключения языка комбинация: левыe ctrl + alt</p></p>');
