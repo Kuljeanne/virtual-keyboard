@@ -31,19 +31,3 @@
     box-shadow: inset 2px 0px 15px 10px #9e9e9e;
   }
 }
-
-.key[data-key="ArrowUp"] .key_inner::after {
-  content: '▲';
-}
-
-.key[data-key="ArrowLeft"] .key_inner::after {
-  content: '◄';
-}
-
-.key[data-key="ArrowRight"] .key_inner::after {
-  content: '►';
-}
-
-.key[data-key="ArrowDown"] .key_inner::after {
-  content: '▼';
-}

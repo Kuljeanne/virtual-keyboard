@@ -53,8 +53,11 @@ export default class Key {
     }
     if (this.value.includes('Arrow')) {
       key.classList.add('arrow');
-      key.innerHTML = '<div class="key_inner"></div>';
-      key.dataset.keyValue = '';
+      if (this.value === 'ArrowUp') key.dataset.keyValue = '▲';
+      if (this.value === 'ArrowLeft') key.dataset.keyValue = '◄';
+      if (this.value === 'ArrowRight') key.dataset.keyValue = '►';
+      if (this.value === 'ArrowDown') key.dataset.keyValue = '▼';
+      key.innerHTML = `<div class="key_inner">${key.dataset.keyValue}</div>`;
     }
     if (this.value === 'Space') {
       key.classList.add('space');
