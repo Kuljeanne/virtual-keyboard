@@ -27,8 +27,10 @@ export default class Key {
       key.classList.add('capslock');
       key.dataset.keyValue = '';
     }
-    if (this.value === 'Shift') {
+    if (this.value === 'ShiftLeft' || this.value === 'ShiftRight') {
       key.classList.add('shift');
+      key.innerHTML = '<div class="key_inner">Shift</div>';
+
       key.dataset.keyValue = '';
     }
     if (this.value === 'Delete') {
@@ -36,8 +38,9 @@ export default class Key {
       key.innerHTML = '<div class="key_inner">Del</div>';
       key.dataset.keyValue = '';
     }
-    if (this.value === 'Ctrl') {
+    if (this.value === 'ControlLeft' || this.value === 'ControlRight') {
       key.classList.add('control');
+      key.innerHTML = '<div class="key_inner">Ctrl</div>';
       key.dataset.keyValue = '';
     }
     if (this.value === 'Meta') {

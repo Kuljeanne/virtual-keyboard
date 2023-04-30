@@ -9,9 +9,12 @@ const keyboard = new Keyboard('eng');
 keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'));
 
 window.addEventListener('keydown', (event) => {
+  console.log(event);
   document.querySelector('textarea').focus();
   document.querySelectorAll('.key').forEach((key) => {
-    if (key.dataset.key === event.key || key.dataset.key.toLowerCase() === event.key) {
+    if (key.dataset.key === event.key
+      || key.dataset.key.toLowerCase() === event.key
+      || key.dataset.key === event.code) {
       key.classList.add('key__active');
     }
   });
@@ -19,7 +22,9 @@ window.addEventListener('keydown', (event) => {
 
 window.addEventListener('keyup', (event) => {
   document.querySelectorAll('.key').forEach((key) => {
-    if (key.dataset.key === event.key || key.dataset.key.toLowerCase() === event.key) {
+    if (key.dataset.key === event.key
+      || key.dataset.key.toLowerCase() === event.key
+      || key.dataset.key === event.code) {
       key.classList.remove('key__active');
     }
   });
