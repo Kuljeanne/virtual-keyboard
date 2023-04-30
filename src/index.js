@@ -8,13 +8,15 @@ if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'eng');
 document.querySelector('.virtual-keyboard').append(createTextArea());
 const keyboard = new Keyboard(localStorage.getItem('lang'));
 keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'), localStorage.getItem('lang'));
+
 let altON = false;
+
 document.addEventListener('keydown', (event) => {
   event.preventDefault();
   const textarea = document.querySelector('textarea');
   textarea.focus();
   document.querySelectorAll('.key').forEach((key) => {
-    if (key.dataset.key === event.key
+    if (key.dataset.code === event.code
       || key.dataset.key.toLowerCase() === event.key
       || key.dataset.key === event.code) {
       key.classList.add('key__active');
@@ -60,15 +62,16 @@ document.addEventListener('keydown', (event) => {
     }
   }
 });
-
+const arr = [];
 document.addEventListener('keyup', (event) => {
   document.querySelectorAll('.key').forEach((key) => {
-    if (key.dataset.key === event.key
+    if (key.dataset.code === event.code
       || key.dataset.key.toLowerCase() === event.key
       || key.dataset.key === event.code) {
       key.classList.remove('key__active');
     }
   });
+  arr.push(event.code);
 });
 
 document.querySelector('.virtual-keyboard').insertAdjacentHTML('afterend', '<p class="info">*Клавиатура создана в операционной системе Windows</p><p class="info">*Для переключения языка комбинация: левыe ctrl + alt</p></p>');

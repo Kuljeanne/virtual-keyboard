@@ -1,5 +1,6 @@
 export default class Key {
-  constructor(keyName) {
+  constructor(keyName, code) {
+    this.code = code;
     this.value = keyName;
     this.cls = 'key';
   }
@@ -10,6 +11,7 @@ export default class Key {
     key.innerHTML = `<div class="key_inner">${this.value}</div>`;
     key.dataset.key = this.value;
     key.dataset.keyValue = this.value;
+    key.dataset.code = this.code;
 
     if (this.value === 'Tab') {
       key.classList.add('tab');
