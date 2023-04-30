@@ -7,5 +7,20 @@ document.querySelector('.virtual-keyboard').append(createTextArea());
 
 const keyboard = new Keyboard('eng');
 keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'));
-keyboard.eventHandler();
-// window.addEventListener('keypress',(event)=> console.log(event.key))
+
+window.addEventListener('keydown', (event) => {
+  document.querySelector('textarea').focus();
+  document.querySelectorAll('.key').forEach((key) => {
+    if (key.dataset.key === event.key || key.dataset.key.toLowerCase() === event.key) {
+      key.classList.add('key__active');
+    }
+  });
+});
+
+window.addEventListener('keyup', (event) => {
+  document.querySelectorAll('.key').forEach((key) => {
+    if (key.dataset.key === event.key || key.dataset.key.toLowerCase() === event.key) {
+      key.classList.remove('key__active');
+    }
+  });
+});
