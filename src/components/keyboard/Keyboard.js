@@ -20,7 +20,7 @@ export default class Keyboard {
     ALL_KEYS_ENG.forEach((line) => {
       keyboard.append(this.createLine(line));
     });
-    // если container не html выдать ошибку
+    // если container не html выдать ошибку-добавить это
     container.append(keyboard);
   }
 

@@ -1,5 +1,9 @@
-.text-area{
+.text-area {
   width: 900px;
   height: 200px;
   background-color: #fff;
+}
+
+.text-area:focus {
+  outline: none;
 }

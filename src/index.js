@@ -7,5 +7,5 @@ document.querySelector('.virtual-keyboard').append(createTextArea());
 
 const keyboard = new Keyboard('eng');
 keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'));
-
+keyboard.eventHandler();
 // window.addEventListener('keypress',(event)=> console.log(event.key))
