@@ -13,11 +13,11 @@ export default class Key {
 
     if (this.value === 'Tab') {
       key.classList.add('tab');
-      key.dataset.keyValue = '';
+      key.dataset.keyValue = '  ';
     }
     if (this.value === 'Enter') {
       key.classList.add('enter');
-      key.dataset.keyValue = '';
+      key.dataset.keyValue = '\n';
     }
     if (this.value === 'Backspace') {
       key.classList.add('backspace');

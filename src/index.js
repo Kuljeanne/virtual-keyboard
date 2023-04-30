@@ -9,13 +9,14 @@ const keyboard = new Keyboard('eng');
 keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'));
 
 window.addEventListener('keydown', (event) => {
-  console.log(event);
   document.querySelector('textarea').focus();
   document.querySelectorAll('.key').forEach((key) => {
     if (key.dataset.key === event.key
       || key.dataset.key.toLowerCase() === event.key
       || key.dataset.key === event.code) {
+      if (event.key === 'Tab') event.preventDefault();
       key.classList.add('key__active');
+      document.querySelector('textarea').value += key.dataset.keyValue;
     }
   });
 });
