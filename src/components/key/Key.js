@@ -15,7 +15,7 @@ export default class Key {
 
     if (this.value === 'Tab') {
       key.classList.add('tab');
-      key.dataset.keyValue = '  ';
+      key.dataset.keyValue = '\t';
     }
     if (this.value === 'Enter') {
       key.classList.add('enter');
@@ -28,6 +28,12 @@ export default class Key {
     if (this.value === 'CapsLock') {
       key.classList.add('capslock');
       key.dataset.keyValue = '';
+      key.dataset.caps = false;
+      // if (localStorage.getItem('capslock') === 'true') {
+      //   key.innerHTML = '<div class="key_inner key__uppercase">CapsLock</div>';
+      // } else {
+      //   key.innerHTML = '<div class="key_inner">CapsLock</div>';
+      // }
     }
     if (this.value === 'ShiftLeft' || this.value === 'ShiftRight') {
       key.classList.add('shift');
@@ -45,7 +51,7 @@ export default class Key {
       key.innerHTML = '<div class="key_inner">Ctrl</div>';
       key.dataset.keyValue = '';
     }
-    if (this.value === 'Meta') {
+    if (this.value === 'Win') {
       key.classList.add('meta');
       key.dataset.keyValue = '';
     }
@@ -75,10 +81,17 @@ export default class Key {
   pressHandler() {
     const pressedKey = this;
     pressedKey.classList.add('key__active');
-
     setTimeout(() => { pressedKey.classList.remove('key__active'); }, 300);
-
     const text = document.querySelector('textarea');
+    if (pressedKey.dataset.key === 'CapsLock') {
+      if (pressedKey.dataset.caps === 'true') {
+        pressedKey.dataset.caps = false;
+        localStorage.setItem('capslock', 'false');
+      } else {
+        pressedKey.dataset.caps = true;
+        localStorage.setItem('capslock', 'true');
+      }
+    }
 
     if (pressedKey.dataset.key === 'Backspace') {
       const start = text.value.substring(0, text.selectionStart).split('');
@@ -98,7 +111,11 @@ export default class Key {
     } else {
       const startText = text.value.substring(0, text.selectionStart);
       const endText = text.value.substring(text.selectionStart, text.value.length);
-      text.value = startText + pressedKey.dataset.keyValue + endText;
+      if (localStorage.getItem('capslock') === 'true') {
+        text.value = startText + pressedKey.dataset.keyValue.toUpperCase() + endText;
+      } else {
+        text.value = startText + pressedKey.dataset.keyValue.toLowerCase() + endText;
+      }
       text.selectionStart = startText.length + 1;
       text.selectionEnd = startText.length + 1;
     }

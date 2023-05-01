@@ -4,13 +4,13 @@ import Keyboard from './components/keyboard/Keyboard';
 
 createApp();
 if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'eng');
+if (!localStorage.getItem('capslock')) { localStorage.setItem('capslock', 'false'); }
 
 document.querySelector('.virtual-keyboard').append(createTextArea());
 const keyboard = new Keyboard(localStorage.getItem('lang'));
 keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'), localStorage.getItem('lang'));
 
 let altON = false;
-let capsLock = true;
 
 document.addEventListener('keydown', (event) => {
   event.preventDefault();
@@ -22,7 +22,11 @@ document.addEventListener('keydown', (event) => {
       || key.dataset.key === event.code) {
       key.classList.add('key__active');
       if (event.code === 'CapsLock') {
-        capsLock = !capsLock;
+        if (localStorage.getItem('capslock') === 'true') {
+          localStorage.setItem('capslock', 'false');
+        } else {
+          localStorage.setItem('capslock', 'true');
+        }
       }
 
       if (key.dataset.key === event.key && key.dataset.key === 'Backspace') {
@@ -44,7 +48,7 @@ document.addEventListener('keydown', (event) => {
         const start = textarea.value.substring(0, textarea.selectionStart);
         const end = textarea.value.substring(textarea.selectionStart, textarea.value.length);
 
-        if (capsLock) {
+        if (localStorage.getItem('capslock') === 'true') {
           textarea.value = start + key.dataset.keyValue.toUpperCase() + end;
         } else {
           textarea.value = start + key.dataset.keyValue.toLowerCase() + end;
@@ -56,10 +60,10 @@ document.addEventListener('keydown', (event) => {
     }
   });
 
-  if (event.code === 'AltLeft' || event.code === 'ControlLeft') {
+  if (event.code === 'ControlLeft') {
     altON = true;
   }
-  if ((event.code === 'AltLeft' || event.code === 'ControlLeft') && altON) {
+  if ((event.code === 'AltLeft') && altON) {
     const lang = localStorage.getItem('lang');
     if (lang === 'eng') {
       localStorage.setItem('lang', 'ru');
