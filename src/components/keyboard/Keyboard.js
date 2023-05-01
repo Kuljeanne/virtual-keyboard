@@ -20,7 +20,7 @@ const ALL_KEYS_RU = [['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-
   ['ControlLeft', 'Win', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight']];
 
 // const shiftSymbols =
-// ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace'];
+// ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', ''];
 export default class Keyboard {
   constructor(lang) {
     this.lang = lang;

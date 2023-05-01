@@ -42,6 +42,10 @@ module.exports = () => {
             'sass-loader',
           ],
         },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/,
+          type: 'asset/resource',
+        },
       ],
     },
     plugins: [
@@ -51,7 +55,7 @@ module.exports = () => {
       new CopyPlugin({
         patterns: [{
           from: './src/assets',
-          to: './dist/assets',
+          to: './assets',
           noErrorOnMissing: true,
         }],
       }),
