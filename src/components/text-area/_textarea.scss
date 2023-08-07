@@ -1,10 +1,14 @@
-.text-area {
-  width: 900px;
-  height: 200px;
-  background-color: #fff;
+.textarea {
+  width: 80%;
+  height: 30vh;
   font-size: 22px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 25px;
+  border: 10px solid #ececec;
+  padding: 10px;
 }
 
-.text-area:focus {
+.textarea:focus {
   outline: none;
 }
