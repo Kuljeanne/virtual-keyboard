@@ -1,12 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400&display=swap');
+
 .textarea {
   width: 80%;
-  height: 30vh;
-  font-size: 22px;
+  max-width: 100rem;
+  min-width: 310px;
+  height: 35rem;
+  font-family: 'Oswald', sans-serif;
+  line-height: 120%;
+  font-size: 3rem;
   background-color: #000;
   color: #fff;
-  border-radius: 25px;
-  border: 10px solid #ececec;
-  padding: 10px;
+  border-radius: 1.5rem;
+  border: 1rem solid #ececec;
+  padding: 2rem 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .textarea:focus {

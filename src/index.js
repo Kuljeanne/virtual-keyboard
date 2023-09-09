@@ -1,92 +1,19 @@
-import createApp from './components/virtual-keyboard/App';
-import createTextArea from './components/text-area/Textarea';
+/* eslint-disable no-multiple-empty-lines */
+
+import App from './components/app/App';
 import Keyboard from './components/keyboard/Keyboard';
+import TextArea from './components/text-area/Textarea';
 
-createApp();
-if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'eng');
-if (!localStorage.getItem('capslock')) { localStorage.setItem('capslock', 'false'); }
+App.appendNode(TextArea());
+const keyboard = new Keyboard('eng');
+keyboard.renderKeys();
 
-document.querySelector('.virtual-keyboard').append(createTextArea());
-const keyboard = new Keyboard(localStorage.getItem('lang'));
-keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'), localStorage.getItem('lang'));
+App.appendNode(keyboard.renderKeyboard());
 
-let altON = false;
+document
+  .querySelector('.app')
+  .insertAdjacentHTML(
+    'afterend',
+    '<p class="info">*Клавиатура создана в операционной системе Windows</p><p class="info">*Для переключения языка комбинация: левыe ctrl + alt, Нажатие CapsLock включает и выключает UpperCase</p></p>'
+  );
 
-document.addEventListener('keydown', (event) => {
-  event.preventDefault();
-  const textarea = document.querySelector('textarea');
-  textarea.focus();
-  document.querySelectorAll('.key').forEach((key) => {
-    if (key.dataset.code === event.code
-      || key.dataset.key.toLowerCase() === event.key
-      || key.dataset.key === event.code) {
-      key.classList.add('key__active');
-      if (event.code === 'CapsLock') {
-        if (localStorage.getItem('capslock') === 'true') {
-          localStorage.setItem('capslock', 'false');
-        } else {
-          localStorage.setItem('capslock', 'true');
-        }
-      }
-
-      if (key.dataset.key === event.key && key.dataset.key === 'Backspace') {
-        const start = textarea.value.substring(0, textarea.selectionStart).split('');
-        const end = textarea.value.substring(textarea.selectionStart, textarea.value.length);
-        start.pop();
-        textarea.value = start.join('') + end;
-        textarea.selectionStart = start.length;
-        textarea.selectionEnd = start.length;
-      } else if (key.dataset.key === event.key && key.dataset.key === 'Delete') {
-        const start = textarea.value.substring(0, textarea.selectionStart);
-        const end = textarea.value.substring(textarea.selectionStart, textarea.value.length).split('');
-        end.shift();
-
-        textarea.value = start + end.join('');
-        textarea.selectionStart = start.length;
-        textarea.selectionEnd = start.length;
-      } else {
-        const start = textarea.value.substring(0, textarea.selectionStart);
-        const end = textarea.value.substring(textarea.selectionStart, textarea.value.length);
-
-        if (localStorage.getItem('capslock') === 'true') {
-          textarea.value = start + key.dataset.keyValue.toUpperCase() + end;
-        } else {
-          textarea.value = start + key.dataset.keyValue.toLowerCase() + end;
-        }
-
-        textarea.selectionStart = start.length + 1;
-        textarea.selectionEnd = start.length + 1;
-      }
-    }
-  });
-
-  if (event.code === 'ControlLeft') {
-    altON = true;
-  }
-  if ((event.code === 'AltLeft') && altON) {
-    const lang = localStorage.getItem('lang');
-    if (lang === 'eng') {
-      localStorage.setItem('lang', 'ru');
-      document.querySelector('.virtual-keyboard').lastElementChild.remove();
-      keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'), localStorage.getItem('lang'));
-      altON = false;
-    } else {
-      localStorage.setItem('lang', 'eng');
-      document.querySelector('.virtual-keyboard').lastElementChild.remove();
-      keyboard.renderKeyboard(document.querySelector('.virtual-keyboard'), localStorage.getItem('lang'));
-      altON = false;
-    }
-  }
-});
-
-document.addEventListener('keyup', (event) => {
-  document.querySelectorAll('.key').forEach((key) => {
-    if (key.dataset.code === event.code
-      || key.dataset.key.toLowerCase() === event.key
-      || key.dataset.key === event.code) {
-      key.classList.remove('key__active');
-    }
-  });
-});
-
-document.querySelector('.virtual-keyboard').insertAdjacentHTML('afterend', '<p class="info">*Клавиатура создана в операционной системе Windows</p><p class="info">*Для переключения языка комбинация: левыe ctrl + alt, Нажатие CapsLock включает и выключает UpperCase</p></p>');

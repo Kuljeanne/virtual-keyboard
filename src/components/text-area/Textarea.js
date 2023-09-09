@@ -1,6 +1,7 @@
-export default function createTextArea() {
-  const node = document.createElement('textarea');
+import { createNode } from '../../utils/utils';
+
+export default function TextArea() {
+  const node = createNode('textarea', 'textarea');
   node.setAttribute('autofocus', true);
-  node.classList.add('textarea');
   return node;
 }
