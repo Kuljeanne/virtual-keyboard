@@ -655,19 +655,25 @@ const KEY_DATA_BY_LINES = [
 ];
 
 class Keyboard {
-  #lang = 'eng';
+  #lang = localStorage.getItem('lang') || 'eng';
 
-  #case = 'lower';
+  #case = localStorage.getItem('case') || 'lower';
 
   #node = null;
 
   constructor() {
+    this.#saveSettingsinLocalStorage();
     this.#node = this.#createKeyboardNode('div', 'keyboard');
     this.changeLanquageHandler();
     this.changeCaseClickHandler();
   }
 
   #createKeyboardNode = createNode;
+
+  #saveSettingsinLocalStorage() {
+    localStorage.setItem('lang', this.#lang);
+    localStorage.setItem('case', this.#case);
+  }
 
   renderKeyboard() {
     return this.#node;
@@ -698,6 +704,7 @@ class Keyboard {
         if (secondPressed === 'Alt') {
           this.#lang = this.#lang === 'ru' ? 'eng' : 'ru';
           this.rerender();
+          this.#saveSettingsinLocalStorage();
         }
         window.removeEventListener('keydown', secondKeyHandler);
       };
@@ -712,6 +719,7 @@ class Keyboard {
       if (e.target.closest('.key[data-code="CapsLock"]')) {
         this.#case = this.#case === 'upper' ? 'lower' : 'upper';
         this.rerender();
+        this.#saveSettingsinLocalStorage();
       }
     });
   }
