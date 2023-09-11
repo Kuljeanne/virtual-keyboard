@@ -11,49 +11,28 @@ class Key {
 
   #createKey() {
     const key = createNode('button', 'key');
-    key.innerHTML = `<span class="key_inner">${this.keyValue}</span>`;
-    this.#addSpecialKeyClass(key);
+    key.innerHTML = `<span class="key__inner">${this.keyValue}</span>`;
+    key.dataset.code = this.keyCode;
     return key;
-  }
-
-  #addSpecialKeyClass(key) {
-    if (this.keyCode === 'Tab') {
-      key.classList.add('tab');
-    }
-    if (this.keyCode === 'Enter') {
-      key.classList.add('enter');
-    }
-    if (this.keyCode === 'Backspace') {
-      key.classList.add('backspace');
-    }
-    if (this.keyCode === 'CapsLock') {
-      key.classList.add('capslock');
-    }
-    if (this.keyCode.includes('Shift')) {
-      key.classList.add('shift');
-    }
-    if (this.keyCode === 'Delete') {
-      key.classList.add('delete');
-    }
-    if (this.keyCode === 'ControlLeft' || this.value === 'ControlRight') {
-      key.classList.add('control');
-    }
-    if (this.keyCode === 'Win') {
-      key.classList.add('meta');
-    }
-    if (this.keyCode.includes('Alt')) {
-      key.classList.add('alt');
-    }
-    if (this.keyCode.includes('Arrow')) {
-      key.classList.add('arrow');
-    }
-    if (this.keyCode === 'Space') {
-      key.classList.add('space');
-    }
   }
 
   clickEvent() {
     this.keyNode.addEventListener('click', this.mouseClickHandler);
+  }
+
+  static keypressEvent() {
+    window.addEventListener('keydown', e => {
+      e.preventDefault();
+      const pressedKey = e.code;
+      const targerKey = document.querySelector(
+        `.key[data-code="${pressedKey}"]`
+      );
+      targerKey.classList.add('key_active');
+      targerKey.click();
+      window.addEventListener('keyup', () => {
+        targerKey.classList.remove('key_active');
+      });
+    });
   }
 
   mouseClickHandler() {
@@ -80,7 +59,7 @@ class Key {
       case 'AltLeft':
       case 'ControlRight':
       case 'ControlLeft':
-      case 'MetaRight':
+      case 'MetaLeft':
         break;
       default:
         this.printSymbol(textarea);

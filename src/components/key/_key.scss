@@ -10,7 +10,7 @@
   transition: all .1s ease-out;
 }
 
-.key_inner {
+.key__inner {
   display: block;
   background: #e1d8cd;
   height: 100%;
@@ -24,10 +24,11 @@
   font-size: 1.8rem;
 }
 
-.key:active {
+.key:active,
+.key_active {
   padding: .2rem;
 
-  >.key_inner {
+  >.key__inner {
     transition: all .1s ease-out;
     box-shadow: inset 2px 0px 15px 10px #9e9e9e;
   }
@@ -35,4 +36,19 @@
 
 .key__uppercase {
   text-decoration: underline;
+}
+
+.key[data-code='Space'],
+.key[data-code='Backspace'],
+.key[data-code='ShiftRight'] {
+  flex-grow: 1;
+}
+
+.key[data-code='Enter'],
+.key[data-code='CapsLock'] {
+  min-width: 12.5rem
+}
+
+.key[data-code='ShiftLeft'] {
+  min-width: 13.5rem
 }
