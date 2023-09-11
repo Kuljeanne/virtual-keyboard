@@ -237,8 +237,8 @@ const KEY_DATA_BY_LINES = [
     },
     KeyO: {
       ru: {
-        upper: '',
-        lower: '',
+        upper: 'Щ',
+        lower: 'щ',
       },
       eng: {
         upper: 'O',
@@ -247,8 +247,8 @@ const KEY_DATA_BY_LINES = [
     },
     KeyP: {
       ru: {
-        upper: '',
-        lower: '',
+        upper: 'З',
+        lower: 'з',
       },
       eng: {
         upper: 'P',
@@ -655,16 +655,16 @@ const KEY_DATA_BY_LINES = [
 ];
 
 class Keyboard {
-  #lang;
+  #lang = 'eng';
 
-  #caps;
+  #case = 'lower';
 
   #node = null;
 
-  constructor(lang, caps = 'lower') {
-    this.#lang = lang;
-    this.#caps = caps;
+  constructor() {
     this.#node = this.#createKeyboardNode('div', 'keyboard');
+    this.changeLanquageHandler();
+    this.changeKeysCase();
   }
 
   #createKeyboardNode = createNode;
@@ -683,11 +683,43 @@ class Keyboard {
   #renderKeyboardLine(keys) {
     const lineNode = createNode('div', 'keyboard__line');
     Object.keys(keys).forEach(key => {
-      const { keyNode } = new Key(key, keys[key][this.#lang][this.#caps]);
+      const { keyNode } = new Key(key, keys[key][this.#lang][this.#case]);
       lineNode.append(keyNode);
     });
 
     return lineNode;
+  }
+
+  changeLanquageHandler() {
+    window.addEventListener('keydown', e => {
+      const keyPressed = e.key;
+      const secondKeyHandler = event => {
+        const secondPressed = event.key;
+        if (secondPressed === 'Alt') {
+          this.#lang = this.#lang === 'ru' ? 'eng' : 'ru';
+          this.rerender();
+        }
+        window.removeEventListener('keydown', secondKeyHandler);
+      };
+      if (keyPressed === 'Shift') {
+        window.addEventListener('keydown', secondKeyHandler);
+      }
+    });
+  }
+
+  changeKeysCase() {
+    window.addEventListener('keydown', e => {
+      const keyPressed = e.key;
+      if (keyPressed === 'CapsLock') {
+        this.#case = this.#case === 'upper' ? 'lower' : 'upper';
+        this.rerender();
+      }
+    });
+  }
+
+  rerender() {
+    document.querySelector('.keyboard').innerHTML = '';
+    this.renderKeys();
   }
 }
 

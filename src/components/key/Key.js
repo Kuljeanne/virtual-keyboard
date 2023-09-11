@@ -51,7 +51,6 @@ class Key {
         this.backspaceSymbol(textarea);
         break;
       case 'CapsLock':
-        textarea.value += '\n';
         break;
       case 'ShiftLeft':
       case 'ShiftRight':

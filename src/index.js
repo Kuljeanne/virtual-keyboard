@@ -4,7 +4,7 @@ import Key from './components/key/Key';
 import TextArea from './components/text-area/Textarea';
 
 App.appendNode(TextArea());
-const keyboard = new Keyboard('eng');
+const keyboard = new Keyboard();
 keyboard.renderKeys();
 Key.keypressEvent();
 
@@ -14,5 +14,5 @@ document
   .querySelector('.app')
   .insertAdjacentHTML(
     'afterend',
-    '<p class="info">*Клавиатура создана в операционной системе Windows</p><p class="info">*Для переключения языка комбинация: левыe ctrl + alt, Нажатие CapsLock включает и выключает UpperCase</p></p>'
+    '<p class="info">*Клавиатура создана в операционной системе Windows</p><p class="info">*Для переключения языка комбинация:Shift + alt, Нажатие CapsLock включает и выключает UpperCase</p></p>'
   );
