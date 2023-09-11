@@ -57,23 +57,77 @@ class Key {
   }
 
   mouseClickHandler() {
+    const textarea = document.querySelector('.textarea');
+    switch (this.keyCode) {
+      case 'Enter':
+        textarea.value += '\n';
+        break;
+      case 'Tab':
+        textarea.value += '\t';
+        break;
+      case 'Delete':
+        this.deleteSymbol(textarea);
+        break;
+      case 'Backspace':
+        this.backspaceSymbol(textarea);
+        break;
+      case 'CapsLock':
+        textarea.value += '\n';
+        break;
+      case 'ShiftLeft':
+      case 'ShiftRight':
+      case 'AltRight':
+      case 'AltLeft':
+      case 'ControlRight':
+      case 'ControlLeft':
+      case 'MetaRight':
+        break;
+      default:
+        this.printSymbol(textarea);
+        break;
+    }
+    textarea.focus();
+  }
 
+  static deleteSymbol(textarea) {
+    const start = textarea.value.substring(0, textarea.selectionStart);
+    const end = textarea.value
+      .substring(textarea.selectionStart, textarea.value.length)
+      .split('');
+    end.shift();
+
+    textarea.value = start + end.join('');
+    textarea.selectionStart = start.length;
+    textarea.selectionEnd = start.length;
+  }
+
+  static backspaceSymbol(textarea) {
+    const start = textarea.value
+      .substring(0, textarea.selectionStart)
+      .split('');
+    const end = textarea.value.substring(
+      textarea.selectionStart,
+      textarea.value.length
+    );
+    start.pop();
+    textarea.value = start.join('') + end;
+    textarea.selectionStart = start.length;
+    textarea.selectionEnd = start.length;
+  }
+
+  static printSymbol(textarea, value = this.keyValue) {
+    const startText = textarea.value.substring(0, textarea.selectionStart);
+    const endText = textarea.value.substring(
+      textarea.selectionStart,
+      textarea.value.length
+    );
+    textarea.value = startText + value + endText;
+    textarea.selectionStart = startText.length + 1;
+    textarea.selectionEnd = startText.length + 1;
   }
 }
 
 export default Key;
-
-// export default class Key {
-//   constructor(keyName, code) {
-//     this.code = code;
-//     this.value = keyName;
-//     this.cls = 'key';
-//   }
-
-//   createKey() {
-//     key.addEventListener('click', this.pressHandler);
-//     return key;
-//   }
 
 //   pressHandler() {
 //     const pressedKey = this;
@@ -90,14 +144,7 @@ export default Key;
 //       }
 //     }
 
-//     if (pressedKey.dataset.key === 'Backspace') {
-//       const start = text.value.substring(0, text.selectionStart).split('');
-//       const end = text.value.substring(text.selectionStart, text.value.length);
-//       start.pop();
-//       text.value = start.join('') + end;
-//       text.selectionStart = start.length;
-//       text.selectionEnd = start.length;
-//     } else if (pressedKey.dataset.key === 'Delete') {
+// if (pressedKey.dataset.key === 'Delete') {
 //       const start = text.value.substring(0, text.selectionStart);
 //       const end = text.value.substring(text.selectionStart, text.value.length).split('');
 //       end.shift();

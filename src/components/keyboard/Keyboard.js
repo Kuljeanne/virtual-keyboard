@@ -593,12 +593,12 @@ const KEY_DATA_BY_LINES = [
     },
     Space: {
       ru: {
-        upper: '',
-        lower: '',
+        upper: ' ',
+        lower: ' ',
       },
       eng: {
-        upper: '',
-        lower: '',
+        upper: ' ',
+        lower: ' ',
       },
     },
     AltRight: {
