@@ -1,125 +1,108 @@
-export default class Key {
-  constructor(keyName, code) {
-    this.code = code;
-    this.value = keyName;
-    this.cls = 'key';
+import { createNode } from '../../utils/utils';
+
+class Key {
+  constructor(code, value) {
+    this.keyCode = code;
+    this.keyValue = value;
+    this.keyNode = this.#createKey();
+    this.mouseClickHandler = this.mouseClickHandler.bind(this);
+    this.clickEvent();
   }
 
-  createKey() {
-    const key = document.createElement('div');
-    key.classList.add(this.cls);
-    key.innerHTML = `<div class="key_inner">${this.value}</div>`;
-    key.dataset.key = this.value;
-    key.dataset.keyValue = this.value;
-    key.dataset.code = this.code;
-
-    if (this.value === 'Tab') {
-      key.classList.add('tab');
-      key.dataset.keyValue = '\t';
-    }
-    if (this.value === 'Enter') {
-      key.classList.add('enter');
-      key.dataset.keyValue = '\n';
-    }
-    if (this.value === 'Backspace') {
-      key.classList.add('backspace');
-      key.dataset.keyValue = '';
-    }
-    if (this.value === 'CapsLock') {
-      key.classList.add('capslock');
-      key.dataset.keyValue = '';
-      key.dataset.caps = false;
-      // if (localStorage.getItem('capslock') === 'true') {
-      //   key.innerHTML = '<div class="key_inner key__uppercase">CapsLock</div>';
-      // } else {
-      //   key.innerHTML = '<div class="key_inner">CapsLock</div>';
-      // }
-    }
-    if (this.value === 'ShiftLeft' || this.value === 'ShiftRight') {
-      key.classList.add('shift');
-      key.innerHTML = '<div class="key_inner">Shift</div>';
-
-      key.dataset.keyValue = '';
-    }
-    if (this.value === 'Delete') {
-      key.classList.add('delete');
-      key.innerHTML = '<div class="key_inner">Del</div>';
-      key.dataset.keyValue = '';
-    }
-    if (this.value === 'ControlLeft' || this.value === 'ControlRight') {
-      key.classList.add('control');
-      key.innerHTML = '<div class="key_inner">Ctrl</div>';
-      key.dataset.keyValue = '';
-    }
-    if (this.value === 'Win') {
-      key.classList.add('meta');
-      key.dataset.keyValue = '';
-    }
-    if (this.value.includes('Alt')) {
-      key.classList.add('alt');
-      key.dataset.keyValue = '';
-      key.innerHTML = '<div class="key_inner">Alt</div>';
-    }
-    if (this.value.includes('Arrow')) {
-      key.classList.add('arrow');
-      if (this.value === 'ArrowUp') key.dataset.keyValue = '▲';
-      if (this.value === 'ArrowLeft') key.dataset.keyValue = '◄';
-      if (this.value === 'ArrowRight') key.dataset.keyValue = '►';
-      if (this.value === 'ArrowDown') key.dataset.keyValue = '▼';
-      key.innerHTML = `<div class="key_inner">${key.dataset.keyValue}</div>`;
-    }
-    if (this.value === 'Space') {
-      key.classList.add('space');
-      key.innerHTML = '<div class="key_inner"></div>';
-      key.dataset.keyValue = ' ';
-    }
-
-    key.addEventListener('click', this.pressHandler);
+  #createKey() {
+    const key = createNode('button', 'key');
+    key.innerHTML = `<span class="key__inner">${this.keyValue}</span>`;
+    key.dataset.code = this.keyCode;
     return key;
   }
 
-  pressHandler() {
-    const pressedKey = this;
-    pressedKey.classList.add('key__active');
-    setTimeout(() => { pressedKey.classList.remove('key__active'); }, 300);
-    const text = document.querySelector('textarea');
-    if (pressedKey.dataset.key === 'CapsLock') {
-      if (pressedKey.dataset.caps === 'true') {
-        pressedKey.dataset.caps = false;
-        localStorage.setItem('capslock', 'false');
-      } else {
-        pressedKey.dataset.caps = true;
-        localStorage.setItem('capslock', 'true');
-      }
+  clickEvent() {
+    this.keyNode.addEventListener('click', this.mouseClickHandler);
+  }
+
+  static keypressEvent() {
+    window.addEventListener('keydown', e => {
+      e.preventDefault();
+      const pressedKey = e.code;
+      const targerKey = document.querySelector(
+        `.key[data-code="${pressedKey}"]`
+      );
+      targerKey.classList.add('key_active');
+      targerKey.click();
+      window.addEventListener('keyup', () => {
+        targerKey.classList.remove('key_active');
+      });
+    });
+  }
+
+  mouseClickHandler() {
+    const textarea = document.querySelector('.textarea');
+    switch (this.keyCode) {
+      case 'Enter':
+        textarea.value += '\n';
+        break;
+      case 'Tab':
+        textarea.value += '\t';
+        break;
+      case 'Delete':
+        this.deleteSymbol(textarea);
+        break;
+      case 'Backspace':
+        this.backspaceSymbol(textarea);
+        break;
+      case 'CapsLock':
+        break;
+      case 'ShiftLeft':
+      case 'ShiftRight':
+      case 'AltRight':
+      case 'AltLeft':
+      case 'ControlRight':
+      case 'ControlLeft':
+      case 'MetaLeft':
+        break;
+      default:
+        this.printSymbol(textarea);
+        break;
     }
+    textarea.focus();
+  }
 
-    if (pressedKey.dataset.key === 'Backspace') {
-      const start = text.value.substring(0, text.selectionStart).split('');
-      const end = text.value.substring(text.selectionStart, text.value.length);
-      start.pop();
-      text.value = start.join('') + end;
-      text.selectionStart = start.length;
-      text.selectionEnd = start.length;
-    } else if (pressedKey.dataset.key === 'Delete') {
-      const start = text.value.substring(0, text.selectionStart);
-      const end = text.value.substring(text.selectionStart, text.value.length).split('');
-      end.shift();
+  deleteSymbol(textarea) {
+    const start = textarea.value.substring(0, textarea.selectionStart);
+    const end = textarea.value
+      .substring(textarea.selectionStart, textarea.value.length)
+      .split('');
+    end.shift();
 
-      text.value = start + end.join('');
-      text.selectionStart = start.length;
-      text.selectionEnd = start.length;
-    } else {
-      const startText = text.value.substring(0, text.selectionStart);
-      const endText = text.value.substring(text.selectionStart, text.value.length);
-      if (localStorage.getItem('capslock') === 'true') {
-        text.value = startText + pressedKey.dataset.keyValue.toUpperCase() + endText;
-      } else {
-        text.value = startText + pressedKey.dataset.keyValue.toLowerCase() + endText;
-      }
-      text.selectionStart = startText.length + 1;
-      text.selectionEnd = startText.length + 1;
-    }
+    textarea.value = start + end.join('');
+    textarea.selectionStart = start.length;
+    textarea.selectionEnd = start.length;
+  }
 
-    text.focus();
+  backspaceSymbol(textarea) {
+    const start = textarea.value
+      .substring(0, textarea.selectionStart)
+      .split('');
+    const end = textarea.value.substring(
+      textarea.selectionStart,
+      textarea.value.length
+    );
+    start.pop();
+    textarea.value = start.join('') + end;
+    textarea.selectionStart = start.length;
+    textarea.selectionEnd = start.length;
+  }
+
+  printSymbol(textarea, value = this.keyValue) {
+    const startText = textarea.value.substring(0, textarea.selectionStart);
+    const endText = textarea.value.substring(
+      textarea.selectionStart,
+      textarea.value.length
+    );
+    textarea.value = startText + value + endText;
+    textarea.selectionStart = startText.length + 1;
+    textarea.selectionEnd = startText.length + 1;
   }
 }
+
+export default Key;
