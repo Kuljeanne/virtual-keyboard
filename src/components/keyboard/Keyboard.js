@@ -664,7 +664,7 @@ class Keyboard {
   constructor() {
     this.#node = this.#createKeyboardNode('div', 'keyboard');
     this.changeLanquageHandler();
-    this.changeKeysCaseHandler();
+    this.changeCaseClickHandler();
   }
 
   #createKeyboardNode = createNode;
@@ -707,10 +707,9 @@ class Keyboard {
     });
   }
 
-  changeKeysCaseHandler() {
-    window.addEventListener('keydown', e => {
-      const keyPressed = e.key;
-      if (keyPressed === 'CapsLock') {
+  changeCaseClickHandler() {
+    window.addEventListener('click', e => {
+      if (e.target.closest('.key[data-code="CapsLock"]')) {
         this.#case = this.#case === 'upper' ? 'lower' : 'upper';
         this.rerender();
       }
