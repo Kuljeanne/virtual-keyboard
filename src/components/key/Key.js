@@ -89,7 +89,7 @@ class Key {
     textarea.focus();
   }
 
-  static deleteSymbol(textarea) {
+  deleteSymbol(textarea) {
     const start = textarea.value.substring(0, textarea.selectionStart);
     const end = textarea.value
       .substring(textarea.selectionStart, textarea.value.length)
@@ -101,7 +101,7 @@ class Key {
     textarea.selectionEnd = start.length;
   }
 
-  static backspaceSymbol(textarea) {
+  backspaceSymbol(textarea) {
     const start = textarea.value
       .substring(0, textarea.selectionStart)
       .split('');
@@ -115,7 +115,7 @@ class Key {
     textarea.selectionEnd = start.length;
   }
 
-  static printSymbol(textarea, value = this.keyValue) {
+  printSymbol(textarea, value = this.keyValue) {
     const startText = textarea.value.substring(0, textarea.selectionStart);
     const endText = textarea.value.substring(
       textarea.selectionStart,
