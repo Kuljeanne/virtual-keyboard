@@ -11,6 +11,7 @@
   },
   "plugins": ["import"],
   "rules": {
+    "class-methods-use-this":"off",
     "max-len":"off",
     "arrow-parens":"off",
     "comma-dangle":"off",
